@@ -57,7 +57,7 @@ while True:
         dl = st.download()
         temp, hum = get_weather(api_key, city)
         RESULT = dl / 1000 / 1000
-        line = f'{dt}, {RESULT}, {temp}, {hum}\n'
+        line = f'{dt}, {RESULT}, {round(temp, 2)}, {round(hum)}\n'
     except Exception as e:
         line = f'{dt}, {e} ({dl})\n'
         with open('speedbot_e.txt', 'a') as f:
