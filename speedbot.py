@@ -60,9 +60,6 @@ def get_weather(api_key, city):
 
     return temperature, humidity
 
-print(get_weather(api_key, city))
-
-
 while True:
     RESULT = 1000
     dl = 1000000000
