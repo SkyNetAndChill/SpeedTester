@@ -33,20 +33,35 @@ city = config['city']
 
 
 def get_weather(api_key, city):
+    last_weather_file = 'last_weather.json'
+
+    def load_last_weather():
+        return json.load(open(last_weather_file))
+
+    def save_last_weather(weather):
+        json.dump(weather, open(last_weather_file, 'w'), indent=4)
+
+
     base_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    response = requests.get(base_url, timeout=5)
-
-    if response.status_code == 200:
-
-        data = response.json()
-
-        main = data['main']
-        temperature = main['temp'] - 273.15
-        humidity = main['humidity']
-
-        return temperature, humidity
+    try:
+        response = requests.get(base_url, timeout=5)
+    except:
+        data = load_last_weather()
     else:
-        return "", ""
+        if response.status_code == 200:
+            data = response.json()
+            save_last_weather(data)
+        else:
+            data = load_last_weather()
+
+    main = data['main']
+    temperature = main['temp'] - 273.15
+    humidity = main['humidity']
+
+    return temperature, humidity
+
+print(get_weather(api_key, city))
+
 
 while True:
     RESULT = 1000
