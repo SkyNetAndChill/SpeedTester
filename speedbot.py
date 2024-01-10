@@ -72,17 +72,16 @@ while True:
         RESULT = dl / 1000 / 1000
         gcs = '' if gc else '*'
         line = f'{dt}, {RESULT}, {round(temp, 2)}{gcs}, {round(hum)}\n'
+        with open('speedbot.txt', 'a') as f:
+            f.write(line)
+
+        if RESULT == 1000 or RESULT < 100:
+            sleep(60)
+        else:
+            sleep(60 * 5)
+
     except Exception as e:
         line = f'{dt}, {e} ({dl})\n'
         with open('speedbot_e.txt', 'a') as f:
             f.write(line)
-
-    with open('speedbot.txt', 'a') as f:
-        f.write(line)
-    with open('speedbot_e.txt', 'a') as f:
-        f.write(line)
-
-    if RESULT == 1000 or RESULT < 100:
         sleep(60)
-    else:
-        sleep(60 * 5)
